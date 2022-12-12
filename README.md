@@ -1,5 +1,7 @@
 # Rick and Morty App
 
+![cover](assets/rick_and_morty.png) 
+
 Create a mobile app using the [Rick and Morty API](https://rickandmortyapi.com/).
 We'll be looking at the quality of your code and how your approach would scale to a larger
 project. **Code quality is much more important than adding extra features.**
