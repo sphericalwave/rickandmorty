@@ -15,6 +15,8 @@
 		AF99308C2946B2BA00B7FD01 /* RMCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF99308B2946B2BA00B7FD01 /* RMCharacter.swift */; };
 		AF99308E2946B3C100B7FD01 /* CharacterRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF99308D2946B3C100B7FD01 /* CharacterRow.swift */; };
 		AF9930902946B5CB00B7FD01 /* CharacterUi.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF99308F2946B5CB00B7FD01 /* CharacterUi.swift */; };
+		AF9930932946BEFB00B7FD01 /* SwData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9930922946BEFB00B7FD01 /* SwData.swift */; };
+		AF9930952946C1BB00B7FD01 /* RickAndMortyApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9930942946C1BB00B7FD01 /* RickAndMortyApi.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +29,8 @@
 		AF99308B2946B2BA00B7FD01 /* RMCharacter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacter.swift; sourceTree = "<group>"; };
 		AF99308D2946B3C100B7FD01 /* CharacterRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterRow.swift; sourceTree = "<group>"; };
 		AF99308F2946B5CB00B7FD01 /* CharacterUi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterUi.swift; sourceTree = "<group>"; };
+		AF9930922946BEFB00B7FD01 /* SwData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwData.swift; sourceTree = "<group>"; };
+		AF9930942946C1BB00B7FD01 /* RickAndMortyApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RickAndMortyApi.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,7 +66,9 @@
 				AF99307B2946B1C100B7FD01 /* RickAndMortyApp.swift */,
 				AF9930912946B63F00B7FD01 /* CharactersUi */,
 				AF99308F2946B5CB00B7FD01 /* CharacterUi.swift */,
+				AF9930942946C1BB00B7FD01 /* RickAndMortyApi.swift */,
 				AF99308B2946B2BA00B7FD01 /* RMCharacter.swift */,
+				AF9930922946BEFB00B7FD01 /* SwData.swift */,
 				AF99307F2946B1C300B7FD01 /* Assets.xcassets */,
 				AF9930812946B1C300B7FD01 /* Preview Content */,
 			);
@@ -158,6 +164,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				AF99308E2946B3C100B7FD01 /* CharacterRow.swift in Sources */,
+				AF9930952946C1BB00B7FD01 /* RickAndMortyApi.swift in Sources */,
+				AF9930932946BEFB00B7FD01 /* SwData.swift in Sources */,
 				AF99308A2946B28B00B7FD01 /* CharactersVm.swift in Sources */,
 				AF99307E2946B1C100B7FD01 /* CharactersUi.swift in Sources */,
 				AF99307C2946B1C100B7FD01 /* RickAndMortyApp.swift in Sources */,

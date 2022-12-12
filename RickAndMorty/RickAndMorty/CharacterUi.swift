@@ -26,7 +26,7 @@ struct CharacterUi: View {
             Text(character.status)
             Text(character.species)
             Text(character.gender)
-            Text(character.currentLocation)
+            Text(character.location.name)
         }
         .padding()
     }

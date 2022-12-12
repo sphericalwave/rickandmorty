@@ -18,12 +18,18 @@ struct CharactersUi: View {
         NavigationStack {
             List {
                 ForEach(vm.characters, id: \.self) {
-                    //TODO: character row
                     CharacterRow(character: $0)
                 }
             }
             .navigationTitle("Characters")
-            
+            .onAppear { vm.fetchCharacters() }
+            .alert("Error", isPresented: $vm.isShowingAlert, actions: {
+                Button("Ok", role: .cancel) {
+                    vm.isShowingAlert = false //<< redundant?
+                }
+            }, message: {
+                Text(vm.alertMsg)
+            })
         }
     }
 }
