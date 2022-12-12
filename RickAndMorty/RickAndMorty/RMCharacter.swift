@@ -34,7 +34,7 @@ struct RMCharacter: Codable, Hashable {
 }
 
 struct RMCharacterResponseInfo: Codable {
-    let prev: Int?
+    let prev: URL?
     let pages: Int
     let count: Int
     let next: URL?
