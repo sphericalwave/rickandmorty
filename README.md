@@ -1,6 +1,6 @@
 # Rick and Morty App
 
-![cover](assets/rick_and_morty.png) 
+<img src="assets/rick_and_morty.png" width="33%" height="33%"/>
 
 Create a mobile app using the [Rick and Morty API](https://rickandmortyapi.com/).
 We'll be looking at the quality of your code and how your approach would scale to a larger
