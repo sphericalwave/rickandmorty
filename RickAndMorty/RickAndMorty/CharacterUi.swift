@@ -5,13 +5,6 @@
 //  Created by Aaron Anthony on 2022-12-11.
 //
 
-//○ Photo/Image
-//○ Name
-//○ Status
-//○ Species
-//○ Gender
-//○ Current location
-
 import SwiftUI
 
 struct CharacterUi: View {
@@ -19,16 +12,27 @@ struct CharacterUi: View {
     let character: RMCharacter
 
     var body: some View {
-        VStack {
-            Image(systemName: "person")
-                .imageScale(.large)
-            Text(character.name)
-            Text(character.status)
-            Text(character.species)
-            Text(character.gender)
-            Text(character.location.name)
+        List {
+            AvatarUi(url: character.image)
+                .cornerRadius(9)
+                .padding(.vertical)
+
+            row(title: "Status", content: character.status)
+            row(title: "Species", content: character.species)
+            row(title: "Gender", content: character.gender)
+            row(title: "Location", content: character.location.name)
         }
-        .padding()
+        .navigationTitle(character.name)
+    }
+    
+    func row(title: String, content: String) -> some View {
+        HStack {
+            Text(title)
+                .font(.headline)
+            Spacer()
+            Text(content)
+                .font(.subheadline)
+        }
     }
 }
 

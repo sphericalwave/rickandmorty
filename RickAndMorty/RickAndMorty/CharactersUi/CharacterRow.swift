@@ -16,12 +16,13 @@ struct CharacterRow: View {
     var body: some View {
         NavigationLink(destination: CharacterUi(character: character)) {
             HStack {
-                Image(systemName: "person")
-                    .imageScale(.medium)
+                AvatarUi(url: character.image)
+                    .cornerRadius(3)
+                    .frame(width: 54, height: 54)
                 
-                VStack {
+                VStack(alignment: .leading) {
                     Text(character.name)
-                    Text("# episodes")
+                    Text("\(character.episode.count) episodes")
                 }
             }
         }

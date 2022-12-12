@@ -8,13 +8,31 @@
 import SwiftUI
 
 struct AvatarUi: View {
+    let url: URL
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        AsyncImage(
+            url: url,
+            transaction: Transaction(animation: .easeInOut)
+        ) { phase in
+            switch phase {
+            case .empty:
+                ProgressView()
+            case .success(let image):
+                image
+                    .resizable()
+                    .transition(.scale(scale: 0.1, anchor: .center))
+            case .failure:
+                Image(systemName: "wifi.slash")
+            @unknown default:
+                EmptyView()
+            }
+        }
     }
 }
 
-struct AvatarUi_Previews: PreviewProvider {
-    static var previews: some View {
-        AvatarUi()
-    }
-}
+//struct AvatarUi_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AvatarUi()
+//    }
+//}
