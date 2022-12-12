@@ -20,7 +20,7 @@ struct RickAndMortyApi {
         
         let (data, _) = try await session.data(from: url)
         
-        //TODO: handle error cases
+        //TODO: handle error cases 300, 400, 500
         //print(response.description)
         
         //TODO: remove
@@ -31,16 +31,3 @@ struct RickAndMortyApi {
         return try decoder.decode(GetRMCharacterResponse.self, from: data)
     }
 }
-
-//might want to generate headers
-//var headers = [
-//    "Accept": "*/*",
-//    "Accept-Encoding": "gzip, deflate",
-//    "Content-Type": "application/json",
-//    "Accept-Language": "en-ca",
-//]
-//
-//let queryItems = query.map({ URLQueryItem(name: $0.key, value: $0.value) })
-
-//var request = URLRequest(url: url)
-//request.httpMethod = method

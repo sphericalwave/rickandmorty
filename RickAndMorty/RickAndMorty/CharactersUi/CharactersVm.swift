@@ -13,6 +13,7 @@ class CharactersVm: ObservableObject {
     @Published var characters: [RMCharacter] = []
     @Published var isShowingAlert = false
     @Published var alertMsg = ""
+    @Published var searchText = ""
     
     func fetchCharacters() {
         let api = RickAndMortyApi()
@@ -20,7 +21,7 @@ class CharactersVm: ObservableObject {
             do {
                 let response = try await api.getCharacters()
                 DispatchQueue.main.async { [weak self] in
-                    self?.characters = response.results
+                    self?.characters = response.results                    
                 }
             }
             catch {
@@ -32,6 +33,16 @@ class CharactersVm: ObservableObject {
             }
         }
     }
+    
+    var searchResults: [RMCharacter] {
+        if searchText.isEmpty {
+            return characters
+        }
+        else {
+            return characters.filter {
+                $0.name.lowercased().contains(searchText.lowercased())
+                
+            }
+        }
+    }
 }
-
-

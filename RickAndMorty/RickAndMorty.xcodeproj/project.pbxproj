@@ -67,10 +67,9 @@
 			children = (
 				AF99307B2946B1C100B7FD01 /* RickAndMortyApp.swift */,
 				AF9930912946B63F00B7FD01 /* CharactersUi */,
-				AF99308F2946B5CB00B7FD01 /* CharacterUi.swift */,
 				AF9930942946C1BB00B7FD01 /* RickAndMortyApi.swift */,
 				AF99308B2946B2BA00B7FD01 /* RMCharacter.swift */,
-				AF9930922946BEFB00B7FD01 /* SwData.swift */,
+				AF9930982946CD3800B7FD01 /* Shared */,
 				AF99307F2946B1C300B7FD01 /* Assets.xcassets */,
 				AF9930812946B1C300B7FD01 /* Preview Content */,
 			);
@@ -91,9 +90,18 @@
 				AF99307D2946B1C100B7FD01 /* CharactersUi.swift */,
 				AF9930892946B28B00B7FD01 /* CharactersVm.swift */,
 				AF99308D2946B3C100B7FD01 /* CharacterRow.swift */,
-				AF9930962946C68D00B7FD01 /* AvatarUi.swift */,
+				AF99308F2946B5CB00B7FD01 /* CharacterUi.swift */,
 			);
 			path = CharactersUi;
+			sourceTree = "<group>";
+		};
+		AF9930982946CD3800B7FD01 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				AF9930922946BEFB00B7FD01 /* SwData.swift */,
+				AF9930962946C68D00B7FD01 /* AvatarUi.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
