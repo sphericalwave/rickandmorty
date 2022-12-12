@@ -1,12 +1,12 @@
-#Rick and Morty App
+# Rick and Morty App
 
 Create a mobile app using the [Rick and Morty API](https://rickandmortyapi.com/).
 We'll be looking at the quality of your code and how your approach would scale to a larger
 project. **Code quality is much more important than adding extra features.**
 
-##Requirements
+## Requirements
 
-###Functional Requirements
+### Functional Requirements
 - After launching, the app should display characters, using the `/character` endpoint.
   - For each character show a thumbnail, name and the amount of episodes the
 character appeared in.
@@ -20,7 +20,7 @@ character appeared in.
   - Gender
   - Current location
   
-###Technical Requirements
+### Technical Requirements
 - Make use of the Rick and Morty REST API.
 - Use your own code to communicate with the API (ie. do not use a 3rd party Rick and
 Morty SDK).
