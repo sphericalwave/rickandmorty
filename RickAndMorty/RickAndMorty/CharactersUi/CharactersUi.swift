@@ -17,7 +17,7 @@ struct CharactersUi: View {
                 ForEach(vm.searchResults, id: \.self) { character in
                     CharacterRow(character: character)
                         .onAppear {
-                            vm.loadMoreContentIfNeeded(currentItem: character)
+                            vm.fetchCharactersIfNeeded(currentItem: character)
                         }
                 }
                 

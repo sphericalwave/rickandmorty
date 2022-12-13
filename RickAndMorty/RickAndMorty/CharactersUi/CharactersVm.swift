@@ -11,7 +11,7 @@ import Combine
 class CharactersVm: ObservableObject {
     
     init() {
-        loadMoreContent()
+        fetchCharacters()
     }
     
     @Published var characters: [RMCharacter] = []
@@ -26,8 +26,14 @@ class CharactersVm: ObservableObject {
     //https://www.donnywals.com/implementing-an-infinite-scrolling-list-with-swiftui-and-combine/
     //https://www.donnywals.com/using-custom-publishers-to-drive-swiftui-views/
     //https://www.donnywals.com/whats-the-difference-between-catch-and-replaceerror-in-combine/
+    //https://stackoverflow.com/questions/70559235/how-to-decode-error-response-message-in-combine
     
-    private func loadMoreContent() {
+    //.retry(3)
+    //.eraseToAnyPublisher()
+//        .subscribe(on: DispatchQueue.global())
+//                .receive(on: DispatchQueue.main)
+    
+    private func fetchCharacters() {
         
         print("isLoadingPage \(isLoadingPage) canLoadMorePages \(canLoadMorePages) currentPg \(currentPage)")
         guard !isLoadingPage && canLoadMorePages else {
@@ -40,7 +46,7 @@ class CharactersVm: ObservableObject {
 
         URLSession.shared.dataTaskPublisher(for: url)
             .map(\.data)
-            .decode(type: GetRMCharacterResponse.self, decoder: JSONDecoder())
+            .decode(type: GetRMCharacterResponse.self, decoder: JSONDecoder())  //TODO: catch decode error in combine
             .receive(on: DispatchQueue.main)
             .handleEvents(receiveOutput: { response in
                 
@@ -61,37 +67,20 @@ class CharactersVm: ObservableObject {
             .assign(to: &$characters)
     }
     
-    func loadMoreContentIfNeeded(currentItem item: RMCharacter?) {
+    func fetchCharactersIfNeeded(currentItem item: RMCharacter?) {
         guard let item = item else {
-            loadMoreContent()
+            fetchCharacters()
             return
         }
         
         let thresholdIndex = characters.index(characters.endIndex, offsetBy: -5)
         if characters.firstIndex(where: { $0.id == item.id }) == thresholdIndex {
-            loadMoreContent()
+            fetchCharacters()
         }
     }
     
-//    func fetchCharacters() {
-//        let api = RickAndMortyApi()
-//        Task {
-//            do {
-//                let response = try await api.getCharacters()
-//                DispatchQueue.main.async { [weak self] in
-//                    self?.characters = response.results
-//                }
-//            }
-//            catch {
-//                DispatchQueue.main.async { [weak self] in
-//                    print(error)
-//                    self?.alertMsg = error.localizedDescription.debugDescription
-//                    self?.isShowingAlert = true
-//                }
-//            }
-//        }
-//    }
-    
+
+    //TODO: .debounce(for: .seconds(0.5), scheduler: DispatchQueue.main)
     var searchResults: [RMCharacter] {
         if searchText.isEmpty {
             return characters
