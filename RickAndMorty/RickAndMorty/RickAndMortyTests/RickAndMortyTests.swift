@@ -9,6 +9,22 @@ import XCTest
 @testable import RickAndMorty
 
 final class RickAndMortyTests: XCTestCase {
+    
+    func testCharacterDecoderDecodesCharacter() throws {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        let character = try decoder.decode(RMCharacter.self, from: testJohnnyDepp)
+        
+        XCTAssertEqual(character.name, "Johnny Depp")
+    }
+    
+    func testClientDoesFetchEarthquakeData() async throws {
+        let downloader = TestDownloader()
+        let client = QuakeClient(downloader: downloader)
+        let quakes = try await client.quakes
+
+        XCTAssertEqual(quakes.count, 6)
+    }
 
     func testCharacterApi() async throws  {
 
@@ -56,10 +72,5 @@ final class RickAndMortyTests: XCTestCase {
         let response = try! decoder.decode(GetRMCharacterResponse.self, from: data)
         
         XCTAssertEqual(response.results.count, 20)
-    }
-    
-    func testPreviewCharacter() {
-        let c = RMCharacter.preview
-        XCTAssertEqual(c.name, "Johnny Depp")
     }
 }

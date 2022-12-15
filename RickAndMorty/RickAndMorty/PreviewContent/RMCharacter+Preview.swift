@@ -10,10 +10,8 @@ import Foundation
 extension RMCharacter {
     
     static var preview: RMCharacter {
-        guard let data = SwJson(filename: "RMCharacter+Preview").data() else {
-            fatalError()
-        }
-        let t = try! DwDecoder().decode(RMCharacter.self, from: data)
-        return t
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        return try! decoder.decode(RMCharacter.self, from: testJohnnyDepp)
     }
 }
