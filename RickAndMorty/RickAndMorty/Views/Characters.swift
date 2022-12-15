@@ -20,6 +20,7 @@ struct Characters: View {
     @State var selection: Set<String> = []
     @State private var error: CharacterError?
     @State private var hasError = false
+    @State private var searchText = ""
     //@State var error: Error?
 
     //@StateObject var vm: CharactersVm
@@ -27,7 +28,7 @@ struct Characters: View {
     var body: some View {
         NavigationStack {
             List {
-                ForEach(provider.characters, id: \.self) { quake in
+                ForEach(searchResults, id: \.self) { quake in
                     CharacterRow(character: quake)
                         //infinite scroll
                 }
@@ -47,7 +48,7 @@ struct Characters: View {
                 }
             }
         }
-        //.searchable(text: $vm.searchText, prompt: "Search for a Character by Name")
+        .searchable(text: $searchText, prompt: "Search for a Character by Name")
         .task {
             do {
                 try await provider.fetchCharacters()
@@ -101,6 +102,19 @@ extension Characters {
             self.hasError = true
         }
         isLoading = false
+    }
+    
+    //    //TODO: .debounce(for: .seconds(0.5), scheduler: DispatchQueue.main)
+    var searchResults: [RMCharacter] {
+        if searchText.isEmpty {
+            return provider.characters
+        }
+        else {
+            return provider.characters.filter {
+                $0.name.lowercased().contains(searchText.lowercased())
+
+            }
+        }
     }
 }
 
