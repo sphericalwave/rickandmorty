@@ -13,10 +13,13 @@ struct CharacterDetails: View {
 
     var body: some View {
         List {
-            AvatarUi(url: character.image)
-                .cornerRadius(9)
-                .padding(.vertical)
-
+            if let avatar = character.imgData {
+                Image(uiImage: UIImage(data: avatar)!)
+                    .resizable()
+                    .cornerRadius(9)
+                    .padding(.vertical)
+            }
+            else { ProgressView() }
             row(title: "Status", content: character.status)
             row(title: "Species", content: character.species)
             row(title: "Gender", content: character.gender)
@@ -27,11 +30,9 @@ struct CharacterDetails: View {
     
     func row(title: String, content: String) -> some View {
         HStack {
-            Text(title)
-                .font(.headline)
+            Text(title).font(.headline)
             Spacer()
-            Text(content)
-                .font(.subheadline)
+            Text(content).font(.subheadline)
         }
     }
 }

@@ -7,13 +7,13 @@ An enumeration of Quake fetch and consumption errors.
 
 import Foundation
 
-enum QuakeError: Error {
+enum CharacterError: Error {
     case missingData
     case networkError
     case unexpectedError(error: Error)
 }
 
-extension QuakeError: LocalizedError {
+extension CharacterError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .missingData:

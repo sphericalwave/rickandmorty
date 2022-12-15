@@ -8,26 +8,26 @@ A class to fetch data from the remote server and save it to the Core Data store.
 import Foundation
 
 @MainActor
-class QuakesProvider: ObservableObject {
+class CharacterProvider: ObservableObject {
 
-    @Published var quakes: [RMCharacter] = []
+    @Published var characters: [RMCharacter] = []
 
-    private let client: QuakeClient
+    private let client: CharacterClient
 
-    func fetchQuakes() async throws {
+    func fetchCharacters() async throws {
         let latestQuakes = try await client.quakes
-        self.quakes = latestQuakes
+        self.characters = latestQuakes
     }
 
     func deleteQuakes(atOffsets offsets: IndexSet) {
-        quakes.remove(atOffsets: offsets)
+        characters.remove(atOffsets: offsets)
     }
 
     func location(for quake: RMCharacter) async throws -> Data {
         return try await client.quakeLocation(from: quake.image)
     }
 
-    init(client: QuakeClient = QuakeClient()) {
+    init(client: CharacterClient = CharacterClient()) {
         self.client = client
     }
 }

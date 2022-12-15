@@ -14,10 +14,16 @@ struct CharacterRow: View {
     var body: some View {
         NavigationLink(destination: CharacterDetails(character: character)) {
             HStack {
-                AvatarUi(url: character.image)
-                    .cornerRadius(3)
-                    .frame(width: 54, height: 54)
-                
+                if let avatar = character.imgData {
+                    Image(uiImage: UIImage(data: avatar)!)
+                        .resizable()
+                        .cornerRadius(3)
+                        .frame(width: 54, height: 54)
+                }
+                else {
+                    ProgressView()
+                        .frame(width: 54, height: 54)
+                }
                 VStack(alignment: .leading) {
                     Text(character.name)
                     Text("\(character.episode.count) episodes")

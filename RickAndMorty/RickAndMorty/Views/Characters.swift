@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Characters: View {
     
-    @EnvironmentObject var provider: QuakesProvider
+    @EnvironmentObject var provider: CharacterProvider
     
     @AppStorage("lastUpdated")
     var lastUpdated = Date.distantFuture.timeIntervalSince1970
@@ -18,68 +18,55 @@ struct Characters: View {
     @State var selectMode: SelectMode = .inactive
     @State var isLoading = false
     @State var selection: Set<String> = []
-    @State private var error: QuakeError?
+    @State private var error: CharacterError?
     @State private var hasError = false
+    //@State var error: Error?
 
-    @StateObject var vm: CharactersVm
+    //@StateObject var vm: CharactersVm
     
     var body: some View {
         NavigationStack {
             List {
-                
-                ForEach(provider.quakes, id: \.self) { quake in
-//                    NavigationLink(destination: QuakeDetail(quake: quake)) {
-//                        QuakeRow(quake: quake)
-//                    }
-                    
+                ForEach(provider.characters, id: \.self) { quake in
                     CharacterRow(character: quake)
+                        //infinite scroll
                 }
                 .onDelete(perform: deleteQuakes)
-                
-//                ForEach(vm.searchResults, id: \.self) { character in
-//                    CharacterRow(character: character)
-//                        .onAppear {
-//                            vm.fetchCharactersIfNeeded(currentItem: character)
-//                        }
-//                }
-                
-                if vm.isLoadingPage {
-                  ProgressView()
-                }
             }
             .navigationTitle("Characters")
-            //.onAppear { vm.fetchCharacters() }
-//            .alert("Error", isPresented: $vm.isShowingAlert,
-//                   actions: {
-//                        Button("Ok", role: .cancel) {
-//                            vm.isShowingAlert = false
-//                        }
-//                    },
-//                    message: {
-//                        Text(vm.alertMsg)
-//                    })
             .listStyle(.inset)
             .navigationTitle(title)
             .toolbar(content: toolbarContent)
             .environment(\.editMode, $editMode)
             .refreshable {
                 do {
-                    try await provider.fetchQuakes()
+                    try await provider.fetchCharacters()
                 } catch {
-                    self.error = QuakeError.missingData
+                    self.error = CharacterError.missingData
                     hasError = true
                 }
             }
         }
-        .searchable(text: $vm.searchText, prompt: "Search for a Character by Name")
+        //.searchable(text: $vm.searchText, prompt: "Search for a Character by Name")
         .task {
             do {
-                try await provider.fetchQuakes()
+                try await provider.fetchCharacters()
             }
             catch {
                 print(error)
+               //error =
             }
         }
+//        .alert("Error", isPresented: $hasError,
+//               actions: {
+//                    Button("Ok", role: .cancel) {
+//                        //vm.isShowingAlert = false
+//                        hasError = false
+//                    }
+//                },
+//                message: {
+//                    Text(vm.alertMsg)
+//                })
     }
 }
 
@@ -107,10 +94,10 @@ extension Characters {
     func fetchQuakes() async {
         isLoading = true
         do {
-            try await provider.fetchQuakes()
+            try await provider.fetchCharacters()
             lastUpdated = Date().timeIntervalSince1970
         } catch {
-            self.error = error as? QuakeError ?? .unexpectedError(error: error)
+            self.error = error as? CharacterError ?? .unexpectedError(error: error)
             self.hasError = true
         }
         isLoading = false
@@ -119,6 +106,6 @@ extension Characters {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        Characters(vm: CharactersVm())
+        Characters()
     }
 }

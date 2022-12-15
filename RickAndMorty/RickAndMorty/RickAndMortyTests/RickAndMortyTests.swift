@@ -20,7 +20,7 @@ final class RickAndMortyTests: XCTestCase {
     
     func testClientDoesFetchEarthquakeData() async throws {
         let downloader = TestDownloader()
-        let client = QuakeClient(downloader: downloader)
+        let client = CharacterClient(downloader: downloader)
         let quakes = try await client.quakes
 
         XCTAssertEqual(quakes.count, 6)
@@ -28,7 +28,7 @@ final class RickAndMortyTests: XCTestCase {
 
     func testCharacterApi() async throws  {
 
-        var session = URLSession.shared
+        let session = URLSession.shared
         let baseUrl = "https://rickandmortyapi.com/api/"
         
         guard let url = URL(string: baseUrl + "character") else  {
@@ -36,13 +36,6 @@ final class RickAndMortyTests: XCTestCase {
         }
         
         let (data, _) = try await session.data(from: url)
-        
-        //TODO: handle error cases 300, 400, 500
-        //print(response.description)
-        
-        //TODO: remove
-        let swData = SwData(data: data)
-        swData.prettyPrint()
         
         let decoder = JSONDecoder()
         let response = try! decoder.decode(GetRMCharacterResponse.self, from: data)
@@ -52,7 +45,7 @@ final class RickAndMortyTests: XCTestCase {
     
     func testCharacterPages() async throws  {
 
-        var session = URLSession.shared
+        let session = URLSession.shared
         let baseUrl = "https://rickandmortyapi.com/api/"
         
         guard let url = URL(string: baseUrl + "character" + "/?page=2") else  {
@@ -60,13 +53,6 @@ final class RickAndMortyTests: XCTestCase {
         }
         
         let (data, _) = try await session.data(from: url)
-        
-        //TODO: handle error cases 300, 400, 500
-        //print(response.description)
-        
-        //TODO: remove
-        let swData = SwData(data: data)
-        swData.prettyPrint()
         
         let decoder = JSONDecoder()
         let response = try! decoder.decode(GetRMCharacterResponse.self, from: data)

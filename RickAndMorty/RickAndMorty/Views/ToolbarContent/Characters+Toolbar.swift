@@ -15,7 +15,7 @@ extension Characters {
             if editMode == .active {
                 SelectButton(mode: $selectMode) {
                     if selectMode.isActive {
-                        selection = Set(provider.quakes.map { $0.name }) //TODO: check
+                        selection = Set(provider.characters.map { $0.name }) //TODO: check
                     } else {
                         selection = []
                     }
@@ -39,7 +39,7 @@ extension Characters {
             ToolbarStatus(
                 isLoading: isLoading,
                 lastUpdated: lastUpdated,
-                quakesCount: provider.quakes.count
+                quakesCount: provider.characters.count
             )
             Spacer()
             if editMode == .active {
