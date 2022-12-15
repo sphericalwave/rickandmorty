@@ -11,7 +11,7 @@ import Combine
 class CharactersVm: ObservableObject {
     
     init() {
-        fetchCharacters()
+        //fetchCharacters()
     }
     
     @Published var characters: [RMCharacter] = []

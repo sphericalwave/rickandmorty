@@ -1,5 +1,5 @@
 //
-//  CharacterUi.swift
+//  CharacterDetails.swift
 //  RickAndMorty
 //
 //  Created by Aaron Anthony on 2022-12-11.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CharacterUi: View {
+struct CharacterDetails: View {
     
     let character: RMCharacter
 
@@ -36,8 +36,8 @@ struct CharacterUi: View {
     }
 }
 
-//struct CharacterUi_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CharacterUi()
-//    }
-//}
+struct CharacterUi_Previews: PreviewProvider {
+    static var previews: some View {
+        CharacterDetails(character: .preview)
+    }
+}

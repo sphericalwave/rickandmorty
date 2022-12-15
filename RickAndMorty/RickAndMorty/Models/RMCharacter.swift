@@ -12,6 +12,7 @@ struct GetRMCharacterResponse: Codable {
     let info: RMCharacterResponseInfo
 }
 
+//TODO: Prefix fix?
 struct RMCharacter: Codable, Hashable {
     
     let id: Int

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CharactersUi: View {
+struct Characters: View {
     
     @StateObject var vm: CharactersVm
     
@@ -41,8 +41,8 @@ struct CharactersUi: View {
     }
 }
 
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView()
-//    }
-//}
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        Characters(vm: CharactersVm())
+    }
+}

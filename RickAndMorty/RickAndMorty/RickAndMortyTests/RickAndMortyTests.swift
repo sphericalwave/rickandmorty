@@ -57,4 +57,9 @@ final class RickAndMortyTests: XCTestCase {
         
         XCTAssertEqual(response.results.count, 20)
     }
+    
+    func testPreviewCharacter() {
+        let c = RMCharacter.preview
+        XCTAssertEqual(c.name, "Johnny Depp")
+    }
 }

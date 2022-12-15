@@ -12,7 +12,7 @@ struct RickAndMortyApp: App {
     
     var body: some Scene {
         WindowGroup {
-            CharactersUi(vm: CharactersVm())
+            Characters(vm: CharactersVm())
         }
     }
 }

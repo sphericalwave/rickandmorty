@@ -12,7 +12,7 @@ struct CharacterRow: View {
     let character: RMCharacter
     
     var body: some View {
-        NavigationLink(destination: CharacterUi(character: character)) {
+        NavigationLink(destination: CharacterDetails(character: character)) {
             HStack {
                 AvatarUi(url: character.image)
                     .cornerRadius(3)
@@ -24,5 +24,11 @@ struct CharacterRow: View {
                 }
             }
         }
+    }
+}
+
+struct CharacterRow_Previews: PreviewProvider {
+    static var previews: some View {
+        CharacterRow(character: .preview)
     }
 }
