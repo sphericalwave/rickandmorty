@@ -14,12 +14,19 @@ struct CharactersUi: View {
     var body: some View {
         NavigationStack {
             List {
-                ForEach(vm.searchResults, id: \.self) {
-                    CharacterRow(character: $0)
+                ForEach(vm.searchResults, id: \.self) { character in
+                    CharacterRow(character: character)
+                        .onAppear {
+                            vm.fetchCharactersIfNeeded(currentItem: character)
+                        }
+                }
+                
+                if vm.isLoadingPage {
+                  ProgressView()
                 }
             }
             .navigationTitle("Characters")
-            .onAppear { vm.fetchCharacters() }
+            //.onAppear { vm.fetchCharacters() }
             .alert("Error", isPresented: $vm.isShowingAlert,
                    actions: {
                         Button("Ok", role: .cancel) {
