@@ -9,10 +9,26 @@ import XCTest
 @testable import RickAndMorty
 
 final class RickAndMortyTests: XCTestCase {
+    
+    func testCharacterDecoderDecodesCharacter() throws {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        let character = try decoder.decode(RMCharacter.self, from: testJohnnyDepp)
+        
+        XCTAssertEqual(character.name, "Johnny Depp")
+    }
+    
+    func testClientDoesFetchEarthcharacterData() async throws {
+        let downloader = TestDownloader()
+        let client = CharacterClient(downloader: downloader)
+        let characters = try await client.characters
+
+        XCTAssertEqual(characters.count, 6)
+    }
 
     func testCharacterApi() async throws  {
 
-        var session = URLSession.shared
+        let session = URLSession.shared
         let baseUrl = "https://rickandmortyapi.com/api/"
         
         guard let url = URL(string: baseUrl + "character") else  {
@@ -20,13 +36,6 @@ final class RickAndMortyTests: XCTestCase {
         }
         
         let (data, _) = try await session.data(from: url)
-        
-        //TODO: handle error cases 300, 400, 500
-        //print(response.description)
-        
-        //TODO: remove
-        let swData = SwData(data: data)
-        swData.prettyPrint()
         
         let decoder = JSONDecoder()
         let response = try! decoder.decode(GetRMCharacterResponse.self, from: data)
@@ -36,7 +45,7 @@ final class RickAndMortyTests: XCTestCase {
     
     func testCharacterPages() async throws  {
 
-        var session = URLSession.shared
+        let session = URLSession.shared
         let baseUrl = "https://rickandmortyapi.com/api/"
         
         guard let url = URL(string: baseUrl + "character" + "/?page=2") else  {
@@ -44,13 +53,6 @@ final class RickAndMortyTests: XCTestCase {
         }
         
         let (data, _) = try await session.data(from: url)
-        
-        //TODO: handle error cases 300, 400, 500
-        //print(response.description)
-        
-        //TODO: remove
-        let swData = SwData(data: data)
-        swData.prettyPrint()
         
         let decoder = JSONDecoder()
         let response = try! decoder.decode(GetRMCharacterResponse.self, from: data)

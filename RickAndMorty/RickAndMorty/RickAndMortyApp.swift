@@ -9,10 +9,11 @@ import SwiftUI
 
 @main
 struct RickAndMortyApp: App {
-    
+    @StateObject var characterProvider = CharacterProvider()
     var body: some Scene {
         WindowGroup {
-            CharactersUi(vm: CharactersVm())
+            Characters()
+                .environmentObject(characterProvider)
         }
     }
 }
