@@ -2,7 +2,7 @@
 See LICENSE folder for this sample’s licensing information.
 
 Abstract:
-The toolbar for the Quakes view.
+The toolbar for the Characters view.
 */
 
 import SwiftUI
@@ -32,19 +32,19 @@ extension Characters {
         ToolbarItemGroup(placement: .bottomBar) {
             RefreshButton {
                 Task {
-                    await fetchQuakes()
+                    await fetchCharacters()
                 }
             }
             Spacer()
             ToolbarStatus(
                 isLoading: isLoading,
                 lastUpdated: lastUpdated,
-                quakesCount: provider.characters.count
+                charactersCount: provider.characters.count
             )
             Spacer()
             if editMode == .active {
                 DeleteButton {
-                    deleteQuakes(for: selection)
+                    deleteCharacters(for: selection)
                 }
                 .disabled(isLoading || selection.isEmpty)
             }

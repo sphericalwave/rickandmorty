@@ -18,12 +18,12 @@ final class RickAndMortyTests: XCTestCase {
         XCTAssertEqual(character.name, "Johnny Depp")
     }
     
-    func testClientDoesFetchEarthquakeData() async throws {
+    func testClientDoesFetchEarthcharacterData() async throws {
         let downloader = TestDownloader()
         let client = CharacterClient(downloader: downloader)
-        let quakes = try await client.quakes
+        let characters = try await client.characters
 
-        XCTAssertEqual(quakes.count, 6)
+        XCTAssertEqual(characters.count, 6)
     }
 
     func testCharacterApi() async throws  {

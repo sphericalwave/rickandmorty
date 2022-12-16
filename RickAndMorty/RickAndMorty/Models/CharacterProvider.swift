@@ -15,16 +15,16 @@ class CharacterProvider: ObservableObject {
     private let client: CharacterClient
 
     func fetchCharacters() async throws {
-        let latestQuakes = try await client.quakes
-        self.characters = latestQuakes
+        let latestCharacters = try await client.characters
+        self.characters = latestCharacters
     }
 
-    func deleteQuakes(atOffsets offsets: IndexSet) {
+    func deleteCharacters(atOffsets offsets: IndexSet) {
         characters.remove(atOffsets: offsets)
     }
 
-    func location(for quake: RMCharacter) async throws -> Data {
-        return try await client.quakeLocation(from: quake.image)
+    func imgData(for character: RMCharacter) async throws -> Data {
+        return try await client.characterImgData(from: character.image)
     }
 
     init(client: CharacterClient = CharacterClient()) {

@@ -17,9 +17,9 @@ extension CharacterError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .missingData:
-            return NSLocalizedString("Discarding a quake missing a valid code, magnitude, place, or time.", comment: "")
+            return NSLocalizedString("Discarding a character missing a valid code, magnitude, place, or time.", comment: "")
         case .networkError:
-            return NSLocalizedString("Error fetching quake data over the network.", comment: "")
+            return NSLocalizedString("Error fetching character data over the network.", comment: "")
         case .unexpectedError(let error):
             return NSLocalizedString("Received unexpected error. \(error.localizedDescription)", comment: "")
         }

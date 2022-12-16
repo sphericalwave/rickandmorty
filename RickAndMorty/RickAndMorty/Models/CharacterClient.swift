@@ -8,12 +8,14 @@
 import Foundation
 import os
 
+
+
 actor CharacterClient {
     private let characterCache: NSCache<NSString, CacheEntryObject> = NSCache()
     private let feedURL = URL(string: "https://rickandmortyapi.com/api/character")!
     private lazy var decoder: JSONDecoder = {
         let aDecoder = JSONDecoder()
-        aDecoder.dateDecodingStrategy = .millisecondsSince1970
+        aDecoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
         return aDecoder
     }()
     
@@ -25,20 +27,20 @@ actor CharacterClient {
         self.downloader = downloader
     }
     
-    var quakes: [RMCharacter] {
+    var characters: [RMCharacter] {
         get async throws {
-            logger.trace("get quakes")
+            logger.trace("get characters")
 
             let data = try await downloader.httpData(from: feedURL)
-            let allQuakes = try decoder.decode(GetRMCharacterResponse.self, from: data)
-            var updatedQuakes = allQuakes.results
+            let allCharacters = try decoder.decode(GetRMCharacterResponse.self, from: data)
+            var updatedCharacters = allCharacters.results
                         
             try await withThrowingTaskGroup(of: (Int, Data).self) { group in
-                for quake in updatedQuakes {
+                for character in updatedCharacters {
                     group.addTask {
-                        self.logger.trace("add task for \(quake.name) id: \(quake.id) photo")  //FIXME: memory leak?
-                        let location = try await self.quakeLocation(from: quake.image)
-                        return (quake.id, location)
+                        self.logger.trace("add task for \(character.name) id: \(character.id) photo")  //FIXME: memory leak?
+                        let imgData = try await self.characterImgData(from: character.image)
+                        return (character.id, imgData)
                     }
                 }
                 while let result = await group.nextResult() {
@@ -46,22 +48,22 @@ actor CharacterClient {
                     case .failure(let error):
                         self.logger.trace("error")  //FIXME: memory leak?
                         throw error
-                    case .success(let (index, location)):  //id
+                    case .success(let (index, imgData)):  //id
                         self.logger.trace("success \(index)") //FIXME: memory leak?
-                        updatedQuakes[index - 1].imgData = location
+                        updatedCharacters[index - 1].imgData = imgData
                     }
                 }
             }
-            return updatedQuakes
+            return updatedCharacters
         }
     }
     
-    func quakeLocation(from url: URL) async throws -> Data {
+    func characterImgData(from url: URL) async throws -> Data {
         if let cached = characterCache[url] {
             switch cached {
-            case .ready(let location):
+            case .ready(let imgData):
                 self.logger.trace("ready") //FIXME: memory leak?
-                return location
+                return imgData
             case .inProgress(let task):
                 self.logger.trace("inProgress") //FIXME: memory leak?
                 return try await task.value
@@ -75,9 +77,9 @@ actor CharacterClient {
         characterCache[url] = .inProgress(task)
         do {
             self.logger.trace("await photo") //FIXME: memory leak?
-            let location = try await task.value
-            characterCache[url] = .ready(location)
-            return location
+            let imgData = try await task.value
+            characterCache[url] = .ready(imgData)
+            return imgData
         } catch {
             characterCache[url] = nil
             self.logger.trace("await photo error \(error)") //FIXME: memory leak?

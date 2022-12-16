@@ -22,17 +22,15 @@ struct Characters: View {
     @State private var hasError = false
     @State private var searchText = ""
     //@State var error: Error?
-
-    //@StateObject var vm: CharactersVm
     
     var body: some View {
         NavigationStack {
             List {
-                ForEach(searchResults, id: \.self) { quake in
-                    CharacterRow(character: quake)
+                ForEach(searchResults, id: \.self) { character in
+                    CharacterRow(character: character)
                         //infinite scroll
                 }
-                .onDelete(perform: deleteQuakes)
+                .onDelete(perform: deleteCharacters)
             }
             .navigationTitle("Characters")
             .listStyle(.inset)
@@ -79,20 +77,20 @@ extension Characters {
             return "\(selection.count) Selected"
         }
     }
-    func deleteQuakes(at offsets: IndexSet) {
-        provider.deleteQuakes(atOffsets: offsets)
+    func deleteCharacters(at offsets: IndexSet) {
+        provider.deleteCharacters(atOffsets: offsets)
     }
-    func deleteQuakes(for codes: Set<String>) {
+    func deleteCharacters(for codes: Set<String>) {
 //        var offsetsToDelete: IndexSet = []
-//        for (index, element) in provider.quakes.enumerated() {
+//        for (index, element) in provider.characters.enumerated() {
 //            if codes.contains(element.code) {
 //                offsetsToDelete.insert(index)
 //            }
 //        }
-//        deleteQuakes(at: offsetsToDelete)
+//        deleteCharacters(at: offsetsToDelete)
 //        selection.removeAll()
     }
-    func fetchQuakes() async {
+    func fetchCharacters() async {
         isLoading = true
         do {
             try await provider.fetchCharacters()

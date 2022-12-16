@@ -32,6 +32,7 @@
 		AFD5EBE3294BAB0E00E6DF7A /* DeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD5EBDD294BAB0E00E6DF7A /* DeleteButton.swift */; };
 		AFD5EBE4294BAB0E00E6DF7A /* Characters+Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD5EBDE294BAB0E00E6DF7A /* Characters+Toolbar.swift */; };
 		AFD5EBE5294BAB0E00E6DF7A /* ToolbarStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD5EBDF294BAB0E00E6DF7A /* ToolbarStatus.swift */; };
+		AFD5EBE7294CC2D300E6DF7A /* DateFormatter+Iso8601Full.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD5EBE6294CC2D300E6DF7A /* DateFormatter+Iso8601Full.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 		AFD5EBDD294BAB0E00E6DF7A /* DeleteButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteButton.swift; sourceTree = "<group>"; };
 		AFD5EBDE294BAB0E00E6DF7A /* Characters+Toolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Characters+Toolbar.swift"; sourceTree = "<group>"; };
 		AFD5EBDF294BAB0E00E6DF7A /* ToolbarStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolbarStatus.swift; sourceTree = "<group>"; };
+		AFD5EBE6294CC2D300E6DF7A /* DateFormatter+Iso8601Full.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Iso8601Full.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				AF9930962946C68D00B7FD01 /* AvatarUi.swift */,
+				AFD5EBE6294CC2D300E6DF7A /* DateFormatter+Iso8601Full.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -326,6 +329,7 @@
 				AF99307E2946B1C100B7FD01 /* Characters.swift in Sources */,
 				AFD5EBE5294BAB0E00E6DF7A /* ToolbarStatus.swift in Sources */,
 				AFD5EBD0294BA27E00E6DF7A /* CharacterError.swift in Sources */,
+				AFD5EBE7294CC2D300E6DF7A /* DateFormatter+Iso8601Full.swift in Sources */,
 				AFD5EBE3294BAB0E00E6DF7A /* DeleteButton.swift in Sources */,
 				AF9930972946C68D00B7FD01 /* AvatarUi.swift in Sources */,
 				AFD5EBE4294BAB0E00E6DF7A /* Characters+Toolbar.swift in Sources */,
