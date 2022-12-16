@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CharacterRow: View {
     
-    let character: RMCharacter
+    let character: RickAndMorty.Character
     
     var body: some View {
         NavigationLink(destination: CharacterDetails(character: character)) {

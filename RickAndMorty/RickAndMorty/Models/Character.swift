@@ -8,13 +8,12 @@
 import Foundation
 import UIKit
 
-struct GetRMCharacterResponse: Codable {
-    let results: [RMCharacter]
-    let info: RMCharacterResponseInfo
+struct CharacterResponse: Codable {
+    let results: [Character]
+    let info: CharacterResponseInfo
 }
 
-//TODO: Prefix fix?
-struct RMCharacter: Codable, Hashable {
+struct Character: Codable, Hashable {
     
     let id: Int
     let gender: String
@@ -22,21 +21,21 @@ struct RMCharacter: Codable, Hashable {
     let type: String
     let species: String
     let episode: [URL]
-    let location: RMInfo
+    let location: Info
     let image: URL
     var imgData: Data?
-    let origin: RMInfo
+    let origin: Info
     let created: Date   //"2017-11-04T20:51:31.373Z"
     let name: String
     let status: String
     
-    struct RMInfo: Codable, Hashable {
+    struct Info: Codable, Hashable {
         let name: String
         //let url: URL?  //TODO: sometimes returned as empty string "Invalid URL string."
     }
 }
 
-struct RMCharacterResponseInfo: Codable {
+struct CharacterResponseInfo: Codable {
     let prev: URL?
     let pages: Int
     let count: Int

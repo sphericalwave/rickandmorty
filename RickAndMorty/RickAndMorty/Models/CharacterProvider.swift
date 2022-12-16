@@ -10,7 +10,7 @@ import Foundation
 @MainActor
 class CharacterProvider: ObservableObject {
 
-    @Published var characters: [RMCharacter] = []
+    @Published var characters: [RickAndMorty.Character] = []
 
     private let client: CharacterClient
 
@@ -23,7 +23,7 @@ class CharacterProvider: ObservableObject {
         characters.remove(atOffsets: offsets)
     }
 
-    func imgData(for character: RMCharacter) async throws -> Data {
+    func imgData(for character: RickAndMorty.Character) async throws -> Data {
         return try await client.characterImgData(from: character.image)
     }
 

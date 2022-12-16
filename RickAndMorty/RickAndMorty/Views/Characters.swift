@@ -103,7 +103,7 @@ extension Characters {
     }
     
     //    //TODO: .debounce(for: .seconds(0.5), scheduler: DispatchQueue.main)
-    var searchResults: [RMCharacter] {
+    var searchResults: [RickAndMorty.Character] {
         if searchText.isEmpty {
             return provider.characters
         }

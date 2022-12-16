@@ -7,11 +7,11 @@
 
 import Foundation
 
-extension RMCharacter {
+extension RickAndMorty.Character {
     
-    static var preview: RMCharacter {
+    static var preview: RickAndMorty.Character {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
-        return try! decoder.decode(RMCharacter.self, from: testJohnnyDepp)
+        return try! decoder.decode(RickAndMorty.Character.self, from: testJohnnyDepp)
     }
 }

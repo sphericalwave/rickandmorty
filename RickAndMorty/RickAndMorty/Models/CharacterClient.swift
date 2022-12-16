@@ -25,12 +25,12 @@ actor CharacterClient {
         self.downloader = downloader
     }
     
-    var characters: [RMCharacter] {
+    var characters: [RickAndMorty.Character] {
         get async throws {
             logger.trace("get characters")
 
             let data = try await downloader.httpData(from: feedURL)
-            let allCharacters = try decoder.decode(GetRMCharacterResponse.self, from: data)
+            let allCharacters = try decoder.decode(CharacterResponse.self, from: data)
             var updatedCharacters = allCharacters.results
                         
             try await withThrowingTaskGroup(of: (Int, Data).self) { group in

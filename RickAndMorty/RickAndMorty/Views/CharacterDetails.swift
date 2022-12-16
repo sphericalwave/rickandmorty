@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CharacterDetails: View {
     
-    let character: RMCharacter
+    let character: RickAndMorty.Character
 
     var body: some View {
         List {
