@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import os
 
 struct Characters: View {
     
@@ -13,6 +14,8 @@ struct Characters: View {
     
     @AppStorage("lastUpdated")
     var lastUpdated = Date.distantFuture.timeIntervalSince1970
+    
+    private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: Characters.self))
     
     @State var editMode: EditMode = .inactive
     @State var selectMode: SelectMode = .inactive
@@ -31,8 +34,6 @@ struct Characters: View {
                         .task {
                             await fetchCharactersIfNeeded(currentItem: character)
                         }
-                        
-                        //TODO: infinite scroll
                 }
                 .onDelete(perform: deleteCharacters)
             }
@@ -98,6 +99,7 @@ extension Characters {
     }
     
     func fetchCharacters() async {
+        Self.logger.trace("fetchCharacters()")
         isLoading = true
         do {
             try await provider.fetchCharacters()
@@ -156,13 +158,20 @@ extension Characters {
 //    }
 
     func fetchCharactersIfNeeded(currentItem: RickAndMorty.Character?) async {
+        Self.logger.trace("fetchCharactersIfNeeded(currentItem:)")
+        if isLoading {
+            Self.logger.trace("fetchCharactersIfNeeded(currentItem:) - loading")
+            return
+        }
         guard let currentItem = currentItem else {
+            Self.logger.trace("fetchCharactersIfNeeded(currentItem:) - currentItem == nil")
             await fetchCharacters()
             return
         }
 
-        let thresholdIndex = provider.characters.index(provider.characters.endIndex, offsetBy: -5)
+        let thresholdIndex = provider.characters.index(provider.characters.endIndex, offsetBy: -3)
         if provider.characters.firstIndex(where: { $0.id == currentItem.id }) == thresholdIndex {
+            Self.logger.trace("fetchCharactersIfNeeded(currentItem:) - threshold")
             await fetchCharacters()
         }
     }
