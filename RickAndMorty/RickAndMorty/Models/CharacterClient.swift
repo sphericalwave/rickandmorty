@@ -12,6 +12,7 @@ import UIKit
 actor CharacterClient {
     private let characterCache: NSCache<NSString, CacheEntryObject> = NSCache()
     private let feedURL = URL(string: "https://rickandmortyapi.com/api/character")!
+    private var nextTwentyCharacters: URL?
     private lazy var decoder: JSONDecoder = {
         let aDecoder = JSONDecoder()
         aDecoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
@@ -30,9 +31,21 @@ actor CharacterClient {
         get async throws {
             Self.logger.trace("get characters")
 
-            let data = try await downloader.httpData(from: feedURL)
-            let allCharacters = try decoder.decode(CharacterResponse.self, from: data)
-            var updatedCharacters = allCharacters.results
+            var updatedCharacters = [RickAndMorty.Character]()
+            
+            if nextTwentyCharacters != nil {
+                let data = try await downloader.httpData(from: nextTwentyCharacters!)
+                let allCharacters = try decoder.decode(CharacterResponse.self, from: data)
+                //await updatedCharacters = characters + allCharacters.results
+                updatedCharacters = allCharacters.results  //TODO: this is an issue, maybe put characters in cache
+                nextTwentyCharacters = allCharacters.info.next
+            }
+            else {
+                let data = try await downloader.httpData(from: feedURL)
+                let allCharacters = try decoder.decode(CharacterResponse.self, from: data)
+                updatedCharacters = allCharacters.results
+                nextTwentyCharacters = allCharacters.info.next
+            }
                         
             try await withThrowingTaskGroup(of: (Int, Data).self) { group in
                 for character in updatedCharacters {
@@ -47,12 +60,13 @@ actor CharacterClient {
                     case .failure(let error):
                         Self.logger.trace("error")
                         throw error
-                    case .success(let (index, imgData)):
-                        Self.logger.trace("success \(index)")
-                        updatedCharacters[index - 1].imgData = imgData
+                    case .success(let (id, imgData)):
+                        Self.logger.trace("success \(id)")
+                        updatedCharacters[id - 1].imgData = imgData  //Thread 12: Fatal error: Index out of range
                     }
                 }
             }
+            
             return updatedCharacters
         }
     }

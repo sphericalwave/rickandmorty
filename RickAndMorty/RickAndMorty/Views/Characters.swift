@@ -28,6 +28,10 @@ struct Characters: View {
             List {
                 ForEach(searchResults, id: \.self) { character in
                     CharacterRow(character: character)
+                        .task {
+                            await fetchCharactersIfNeeded(currentItem: character)
+                        }
+                        
                         //TODO: infinite scroll
                 }
                 .onDelete(perform: deleteCharacters)
@@ -77,9 +81,11 @@ extension Characters {
             return "\(selection.count) Selected"
         }
     }
+    
     func deleteCharacters(at offsets: IndexSet) {
         provider.deleteCharacters(atOffsets: offsets)
     }
+    
     func deleteCharacters(for codes: Set<String>) {
 //        var offsetsToDelete: IndexSet = []
 //        for (index, element) in provider.characters.enumerated() {
@@ -90,6 +96,7 @@ extension Characters {
 //        deleteCharacters(at: offsetsToDelete)
 //        selection.removeAll()
     }
+    
     func fetchCharacters() async {
         isLoading = true
         do {
@@ -110,8 +117,53 @@ extension Characters {
         else {
             return provider.characters.filter {
                 $0.name.lowercased().contains(searchText.lowercased())
-
             }
+        }
+    }
+    
+//    private func fetchCharacters() {
+//
+//        print("isLoadingPage \(isLoadingPage) canLoadMorePages \(canLoadMorePages) currentPg \(currentPage)")
+//        guard !isLoadingPage && canLoadMorePages else {
+//            return
+//        }
+//
+//        isLoadingPage = true
+//
+//        let url = URL(string: "https://rickandmortyapi.com/api/character/?page=\(currentPage)")!
+//
+//        URLSession.shared.dataTaskPublisher(for: url)
+//            .map(\.data)
+//            .decode(type: GetRMCharacterResponse.self, decoder: JSONDecoder())  //TODO: catch decode error in combine
+//            .receive(on: DispatchQueue.main)
+//            .handleEvents(receiveOutput: { response in
+//
+//                print("response.info.next != nil \(response.info.next != nil)")
+//                print(response.results.first?.name ?? "name?")
+//
+//                self.canLoadMorePages = response.info.next != nil  //TODO: check assumption
+//                self.isLoadingPage = false
+//                self.currentPage += 1
+//            })
+//            .map { response in
+//
+//                return self.characters + response.results
+//            }
+//            .catch { _ in
+//                Just(self.characters)
+//            }
+//            .assign(to: &$characters)
+//    }
+
+    func fetchCharactersIfNeeded(currentItem: RickAndMorty.Character?) async {
+        guard let currentItem = currentItem else {
+            await fetchCharacters()
+            return
+        }
+
+        let thresholdIndex = provider.characters.index(provider.characters.endIndex, offsetBy: -5)
+        if provider.characters.firstIndex(where: { $0.id == currentItem.id }) == thresholdIndex {
+            await fetchCharacters()
         }
     }
 }
