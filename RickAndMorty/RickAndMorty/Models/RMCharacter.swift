@@ -26,7 +26,7 @@ struct RMCharacter: Codable, Hashable {
     let image: URL
     var imgData: Data?
     let origin: RMInfo
-    let created: Date   //TODO: "2017-11-04T20:51:31.373Z", isoString setting on jsondecoder
+    let created: Date   //"2017-11-04T20:51:31.373Z"
     let name: String
     let status: String
     

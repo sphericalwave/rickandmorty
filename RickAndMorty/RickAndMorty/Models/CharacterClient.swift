@@ -8,8 +8,6 @@
 import Foundation
 import os
 
-
-
 actor CharacterClient {
     private let characterCache: NSCache<NSString, CacheEntryObject> = NSCache()
     private let feedURL = URL(string: "https://rickandmortyapi.com/api/character")!

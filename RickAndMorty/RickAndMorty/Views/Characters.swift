@@ -28,7 +28,7 @@ struct Characters: View {
             List {
                 ForEach(searchResults, id: \.self) { character in
                     CharacterRow(character: character)
-                        //infinite scroll
+                        //TODO: infinite scroll
                 }
                 .onDelete(perform: deleteCharacters)
             }

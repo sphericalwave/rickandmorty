@@ -8,16 +8,16 @@ struct ToolbarStatus: View {
     var body: some View {
         VStack {
             if isLoading {
-                Text("Checking for Earthcharacters...")
+                Text("Checking for Characters...")
                 Spacer()
             } else if lastUpdated == Date.distantFuture.timeIntervalSince1970 {
                 Spacer()
-                Text("\(charactersCount) Earthcharacters")
+                Text("\(charactersCount) Characters")
                     .foregroundStyle(Color.secondary)
             } else {
                 let lastUpdatedDate = Date(timeIntervalSince1970: lastUpdated)
                 Text("Updated \(lastUpdatedDate.formatted(.relative(presentation: .named)))")
-                Text("\(charactersCount) Earthcharacters")
+                Text("\(charactersCount) Characters")
                     .foregroundStyle(Color.secondary)
             }
         }
