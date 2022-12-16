@@ -10,6 +10,7 @@ import os
 import UIKit
 
 actor CharacterClient {
+    private var characters: [RickAndMorty.Character] = []  //this is a cache of sorts too which is meh
     private let characterCache: NSCache<NSString, CacheEntryObject> = NSCache()
     private let feedURL = URL(string: "https://rickandmortyapi.com/api/character")!
     private var nextTwentyCharacters: URL?
@@ -27,49 +28,47 @@ actor CharacterClient {
         self.downloader = downloader
     }
     
-    var characters: [RickAndMorty.Character] {
-        get async throws {
-            Self.logger.trace("get characters")
-
-            var updatedCharacters = [RickAndMorty.Character]()
-            
-            if nextTwentyCharacters != nil {
-                let data = try await downloader.httpData(from: nextTwentyCharacters!)
-                let allCharacters = try decoder.decode(CharacterResponse.self, from: data)
-                //await updatedCharacters = characters + allCharacters.results
-                updatedCharacters = allCharacters.results  //TODO: this is an issue, maybe put characters in cache
-                nextTwentyCharacters = allCharacters.info.next
-            }
-            else {
-                let data = try await downloader.httpData(from: feedURL)
-                let allCharacters = try decoder.decode(CharacterResponse.self, from: data)
-                updatedCharacters = allCharacters.results
-                nextTwentyCharacters = allCharacters.info.next
-            }
-                        
-            try await withThrowingTaskGroup(of: (Int, Data).self) { group in
-                for character in updatedCharacters {
-                    group.addTask {
-                        Self.logger.trace("add task for \(character.name) id: \(character.id) photo")
-                        let imgData = try await self.characterImgData(from: character.image)
-                        return (character.id, imgData)
-                    }
-                }
-                while let result = await group.nextResult() {
-                    switch result {
-                    case .failure(let error):
-                        Self.logger.trace("error")
-                        throw error
-                    case .success(let (id, imgData)):
-                        Self.logger.trace("success \(id)")
-                        updatedCharacters[id - 1].imgData = imgData  //Thread 12: Fatal error: Index out of range
-                    }
-                }
-            }
-            
-            return updatedCharacters
+    func nextTwentyCharacters() async throws -> [RickAndMorty.Character] {
+        Self.logger.trace("nextTwentyCharacters")
+        
+        var updatedCharacters = characters
+        
+        if nextTwentyCharacters != nil {
+            let data = try await downloader.httpData(from: nextTwentyCharacters!)
+            let allCharacters = try decoder.decode(CharacterResponse.self, from: data)
+            updatedCharacters.append(contentsOf: allCharacters.results)  //TODO: this is an issue, maybe put characters in cache
+            nextTwentyCharacters = allCharacters.info.next
         }
+        else { //FIXME: this will get called when you reach the end of all the characters
+            let data = try await downloader.httpData(from: feedURL)
+            let allCharacters = try decoder.decode(CharacterResponse.self, from: data)
+            updatedCharacters.append(contentsOf: allCharacters.results)
+            nextTwentyCharacters = allCharacters.info.next
+        }
+        
+        try await withThrowingTaskGroup(of: (Int, Data).self) { group in
+            for character in updatedCharacters {
+                group.addTask {
+                    Self.logger.trace("add task for \(character.name) id: \(character.id) photo")
+                    let imgData = try await self.characterImgData(from: character.image)
+                    return (character.id, imgData)
+                }
+            }
+            while let result = await group.nextResult() {
+                switch result {
+                case .failure(let error):
+                    Self.logger.trace("error")
+                    throw error
+                case .success(let (id, imgData)):
+                    Self.logger.trace("success \(id)")
+                    updatedCharacters[id - 1].imgData = imgData  //Thread 12: Fatal error: Index out of range
+                }
+            }
+        }
+        characters = updatedCharacters
+        return updatedCharacters
     }
+    
     
     func characterImgData(from url: URL) async throws -> Data {
         if let cached = characterCache[url] {

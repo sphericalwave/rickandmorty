@@ -15,7 +15,8 @@ class CharacterProvider: ObservableObject {
     private let client: CharacterClient
 
     func fetchCharacters() async throws {
-        let latestCharacters = try await client.characters
+        //let latestCharacters = try await client.characters
+        let latestCharacters = try await client.nextTwentyCharacters()
         self.characters = latestCharacters
     }
 
