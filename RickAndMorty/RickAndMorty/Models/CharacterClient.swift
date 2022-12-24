@@ -98,4 +98,8 @@ actor CharacterClient {
             throw error
         }
     }
+    
+    func deleteCharacters(atOffsets offsets: IndexSet) {
+        characters.remove(atOffsets: offsets)
+    }
 }

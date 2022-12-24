@@ -20,22 +20,22 @@ struct Characters: View {
     @State var editMode: EditMode = .inactive
     @State var selectMode: SelectMode = .inactive
     @State var isLoading = false
-    @State var selection: Set<String> = []
+    @State var selection: Set<Int> = []
     @State private var error: CharacterError?
     @State private var hasError = false
     @State private var searchText = ""
-    //@State var error: Error?
     
     var body: some View {
         NavigationStack {
             List {
                 ForEach(searchResults, id: \.self) { character in
                     CharacterRow(character: character)
-                        .task {
-                            await fetchCharactersIfNeeded(currentItem: character)
-                        }
                 }
                 .onDelete(perform: deleteCharacters)
+                
+                if isLoading {
+                    ProgressView()
+                }
             }
             .navigationTitle("Characters")
             .listStyle(.inset)
@@ -58,19 +58,8 @@ struct Characters: View {
             }
             catch {
                 print(error)
-               //error =
             }
         }
-//        .alert("Error", isPresented: $hasError,
-//               actions: {
-//                    Button("Ok", role: .cancel) {
-//                        //vm.isShowingAlert = false
-//                        hasError = false
-//                    }
-//                },
-//                message: {
-//                    Text(vm.alertMsg)
-//                })
     }
 }
 
@@ -87,15 +76,15 @@ extension Characters {
         provider.deleteCharacters(atOffsets: offsets)
     }
     
-    func deleteCharacters(for codes: Set<String>) {
-//        var offsetsToDelete: IndexSet = []
-//        for (index, element) in provider.characters.enumerated() {
-//            if codes.contains(element.code) {
-//                offsetsToDelete.insert(index)
-//            }
-//        }
-//        deleteCharacters(at: offsetsToDelete)
-//        selection.removeAll()
+    func deleteCharacters(for codes: Set<Int>) {
+        var offsetsToDelete: IndexSet = []
+        for (index, element) in provider.characters.enumerated() {
+            if codes.contains(element.id) {
+                offsetsToDelete.insert(index)
+            }
+        }
+        deleteCharacters(at: offsetsToDelete)
+        selection.removeAll()
     }
     
     func fetchCharacters() async {
@@ -109,9 +98,9 @@ extension Characters {
             self.hasError = true
         }
         isLoading = false
+        Self.logger.trace("fetchCharacters() isLoading = false")
     }
     
-    //    //TODO: .debounce(for: .seconds(0.5), scheduler: DispatchQueue.main)
     var searchResults: [RickAndMorty.Character] {
         if searchText.isEmpty {
             return provider.characters
@@ -122,59 +111,14 @@ extension Characters {
             }
         }
     }
-    
-//    private func fetchCharacters() {
-//
-//        print("isLoadingPage \(isLoadingPage) canLoadMorePages \(canLoadMorePages) currentPg \(currentPage)")
-//        guard !isLoadingPage && canLoadMorePages else {
-//            return
-//        }
-//
-//        isLoadingPage = true
-//
-//        let url = URL(string: "https://rickandmortyapi.com/api/character/?page=\(currentPage)")!
-//
-//        URLSession.shared.dataTaskPublisher(for: url)
-//            .map(\.data)
-//            .decode(type: GetRMCharacterResponse.self, decoder: JSONDecoder())  //TODO: catch decode error in combine
-//            .receive(on: DispatchQueue.main)
-//            .handleEvents(receiveOutput: { response in
-//
-//                print("response.info.next != nil \(response.info.next != nil)")
-//                print(response.results.first?.name ?? "name?")
-//
-//                self.canLoadMorePages = response.info.next != nil  //TODO: check assumption
-//                self.isLoadingPage = false
-//                self.currentPage += 1
-//            })
-//            .map { response in
-//
-//                return self.characters + response.results
-//            }
-//            .catch { _ in
-//                Just(self.characters)
-//            }
-//            .assign(to: &$characters)
-//    }
 
-    func fetchCharactersIfNeeded(currentItem: RickAndMorty.Character?) async {
-        Self.logger.trace("fetchCharactersIfNeeded(currentItem:)")
-        if isLoading {
-            Self.logger.trace("fetchCharactersIfNeeded(currentItem:) - loading")
-            return
-        }
-        guard let currentItem = currentItem else {
-            Self.logger.trace("fetchCharactersIfNeeded(currentItem:) - currentItem == nil")
-            await fetchCharacters()
-            return
-        }
-
-        let thresholdIndex = provider.characters.index(provider.characters.endIndex, offsetBy: -3)
-        if provider.characters.firstIndex(where: { $0.id == currentItem.id }) == thresholdIndex {
-            Self.logger.trace("fetchCharactersIfNeeded(currentItem:) - threshold")
-            await fetchCharacters()
-        }
-    }
+    //infinite scroll jammed
+    //func fetchCharactersIfNeeded(currentItem: RickAndMorty.Character) async {
+    //    Self.logger.trace("fetchCharactersIfNeeded(currentItem:)")
+    //    if provider.characters.last?.id == currentItem.id {
+    //            await fetchCharacters()
+    //    }
+    //}
 }
 
 struct ContentView_Previews: PreviewProvider {

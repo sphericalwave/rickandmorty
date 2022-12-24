@@ -14,7 +14,6 @@ struct CharacterResponse: Codable {
 }
 
 struct Character: Codable, Hashable {
-    
     let id: Int
     let gender: String
     let url: URL
