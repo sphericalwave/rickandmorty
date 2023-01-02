@@ -30,6 +30,21 @@ struct Characters: View {
             List {
                 ForEach(searchResults, id: \.self) { character in
                     CharacterRow(character: character)
+                        .task {
+                            //TODO: handle error and fix infinite scroll
+                            if character == provider.characters.last {
+                                Self.logger.trace("fetch next page")
+                                isLoading = true
+                                do {
+                                    try await provider.fetchCharacters()
+                                }
+                                catch {
+                                    hasError = true
+                                    self.error = CharacterError.missingData
+                                }
+                                isLoading = false
+                            }
+                        }
                 }
                 .onDelete(perform: deleteCharacters)
                 
@@ -64,6 +79,7 @@ struct Characters: View {
 }
 
 extension Characters {
+    
     var title: String {
         if selectMode.isActive || selection.isEmpty {
             return "Characters"
@@ -93,7 +109,8 @@ extension Characters {
         do {
             try await provider.fetchCharacters()
             lastUpdated = Date().timeIntervalSince1970
-        } catch {
+        }
+        catch {
             self.error = error as? CharacterError ?? .unexpectedError(error: error)
             self.hasError = true
         }
@@ -111,14 +128,6 @@ extension Characters {
             }
         }
     }
-
-    //infinite scroll jammed
-    //func fetchCharactersIfNeeded(currentItem: RickAndMorty.Character) async {
-    //    Self.logger.trace("fetchCharactersIfNeeded(currentItem:)")
-    //    if provider.characters.last?.id == currentItem.id {
-    //            await fetchCharacters()
-    //    }
-    //}
 }
 
 struct ContentView_Previews: PreviewProvider {

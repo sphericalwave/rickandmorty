@@ -28,8 +28,8 @@ actor CharacterClient {
         self.downloader = downloader
     }
     
-    func nextTwentyCharacters() async throws -> [RickAndMorty.Character] {
-        Self.logger.trace("nextTwentyCharacters")
+    func fetchCharacters() async throws -> [RickAndMorty.Character] {
+        Self.logger.trace("fetchCharacters()")
         
         var updatedCharacters = characters
         
@@ -49,7 +49,7 @@ actor CharacterClient {
         try await withThrowingTaskGroup(of: (Int, Data).self) { group in
             for character in updatedCharacters {
                 group.addTask {
-                    Self.logger.trace("add task for \(character.name) id: \(character.id) photo")
+                    //Self.logger.trace("add task for \(character.name) id: \(character.id) photo")
                     let imgData = try await self.characterImgData(from: character.image)
                     return (character.id, imgData)
                 }
@@ -60,8 +60,8 @@ actor CharacterClient {
                     Self.logger.trace("error")
                     throw error
                 case .success(let (id, imgData)):
-                    Self.logger.trace("success \(id)")
-                    updatedCharacters[id - 1].imgData = imgData  //Thread 12: Fatal error: Index out of range
+                    //Self.logger.trace("success \(id)")
+                    updatedCharacters[id - 1].imgData = imgData
                 }
             }
         }
@@ -74,27 +74,28 @@ actor CharacterClient {
         if let cached = characterCache[url] {
             switch cached {
             case .ready(let imgData):
-                Self.logger.trace("ready")
+                //Self.logger.trace("ready")
                 return imgData
             case .inProgress(let task):
-                Self.logger.trace("inProgress")
+                //Self.logger.trace("inProgress")
                 return try await task.value
             }
         }
         let task = Task<Data, Error> {
-            Self.logger.trace("create task")
+            //Self.logger.trace("create task")
             let data = try await downloader.httpData(from: url)
             return data
         }
         characterCache[url] = .inProgress(task)
         do {
-            Self.logger.trace("await photo")
+            //Self.logger.trace("await photo")
             let imgData = try await task.value
             characterCache[url] = .ready(imgData)
             return imgData
-        } catch {
+        }
+        catch {
             characterCache[url] = nil
-            Self.logger.trace("await photo error \(error)")
+            //Self.logger.trace("await photo error \(error)")
             throw error
         }
     }
