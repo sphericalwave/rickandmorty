@@ -46,11 +46,7 @@ struct Characters: View {
                             }
                         }
                 }
-                .onDelete(perform: deleteCharacters)
-                
-                if isLoading {
-                    ProgressView()
-                }
+                .onDelete(perform: deleteCharacters)  //TODO: do some testing on this
             }
             .navigationTitle("Characters")
             .listStyle(.inset)
