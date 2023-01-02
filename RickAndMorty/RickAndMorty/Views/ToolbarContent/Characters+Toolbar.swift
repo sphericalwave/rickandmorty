@@ -1,21 +1,21 @@
 /*
-See LICENSE folder for this sample’s licensing information.
-
-Abstract:
-The toolbar for the Characters view.
-*/
+ See LICENSE folder for this sample’s licensing information.
+ 
+ Abstract:
+ The toolbar for the Characters view.
+ */
 
 import SwiftUI
 
 extension Characters {
-
+    
     @ToolbarContentBuilder
     func toolbarContent() -> some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
             if editMode == .active {
                 SelectButton(mode: $selectMode) {
                     if selectMode.isActive {
-                        selection = Set(provider.characters.map { $0.name }) //TODO: check
+                        selection = Set(provider.characters.map { $0.id })
                     } else {
                         selection = []
                     }
@@ -35,6 +35,8 @@ extension Characters {
                     await fetchCharacters()
                 }
             }
+            .disabled(isLoading)
+            
             Spacer()
             ToolbarStatus(
                 isLoading: isLoading,
