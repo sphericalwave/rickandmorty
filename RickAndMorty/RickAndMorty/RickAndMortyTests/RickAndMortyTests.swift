@@ -12,18 +12,18 @@ final class RickAndMortyTests: XCTestCase {
     
     func testCharacterDecoderDecodesCharacter() throws {
         let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
-        let character = try decoder.decode(RMCharacter.self, from: testJohnnyDepp)
+        decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
+        let character = try decoder.decode(RickAndMorty.Character.self, from: testJohnnyDepp)
         
         XCTAssertEqual(character.name, "Johnny Depp")
     }
     
-    func testClientDoesFetchEarthcharacterData() async throws {
+    func testClientDoesFetchCharacterData() async throws {
         let downloader = TestDownloader()
         let client = CharacterClient(downloader: downloader)
-        let characters = try await client.characters
+        let characters = try await client.fetchCharacters()
 
-        XCTAssertEqual(characters.count, 6)
+        XCTAssertEqual(characters.count, 20)
     }
 
     func testCharacterApi() async throws  {
@@ -38,9 +38,16 @@ final class RickAndMortyTests: XCTestCase {
         let (data, _) = try await session.data(from: url)
         
         let decoder = JSONDecoder()
-        let response = try! decoder.decode(GetRMCharacterResponse.self, from: data)
+        decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
         
-        XCTAssertEqual(response.results.count, 20)
+        do {
+            let response = try decoder.decode(CharacterResponse.self, from: data)
+            XCTAssertEqual(response.results.count, 20)
+        }
+        catch {
+            print(error)
+            throw error
+        }
     }
     
     func testCharacterPages() async throws  {
@@ -55,8 +62,14 @@ final class RickAndMortyTests: XCTestCase {
         let (data, _) = try await session.data(from: url)
         
         let decoder = JSONDecoder()
-        let response = try! decoder.decode(GetRMCharacterResponse.self, from: data)
-        
-        XCTAssertEqual(response.results.count, 20)
+        decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
+        do {
+            let response = try decoder.decode(CharacterResponse.self, from: data)
+            XCTAssertEqual(response.results.count, 20)
+        }
+        catch {
+            print(error)
+            throw error
+        }
     }
 }
