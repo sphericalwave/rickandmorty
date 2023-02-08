@@ -1,13 +1,13 @@
 # Rick and Morty App
 
-<div>
-    <img src="assets/rick_morty_ios.png" class="inline-block" style="margin-left: auto; margin-right: auto;"/>
-    <img src="assets/rick_morty_ios1.png" class="inline-block" style="margin-left: auto; margin-right: auto;"/>
-    <img src="assets/rick_morty_ios2.png" class="inline-block" style="margin-left: auto; margin-right: auto;"/>
-    <img src="assets/rick_morty_ios3.png" class="inline-block" style="margin-left: auto; margin-right: auto;"/>
-</div>
+<!--<div>-->
+<!--    <img src="assets/rick_morty_ios.png" class="inline-block" style="margin-left: auto; margin-right: auto;"/>-->
+<!--    <img src="assets/rick_morty_ios1.png" class="inline-block" style="margin-left: auto; margin-right: auto;"/>-->
+<!--    <img src="assets/rick_morty_ios2.png" class="inline-block" style="margin-left: auto; margin-right: auto;"/>-->
+<!--    <img src="assets/rick_morty_ios3.png" class="inline-block" style="margin-left: auto; margin-right: auto;"/>-->
+<!--</div>-->
 
-<div style="display: inline-block; width: 25%;">
+<div class="images">
     <img src="assets/rick_morty_ios.png"/>
     <img src="assets/rick_morty_ios1.png"/>
     <img src="assets/rick_morty_ios2.png"/>
@@ -27,3 +27,5 @@ character appeared in.
   - Species
   - Gender
   - Current location
+
+<link rel="stylesheet" type="text/css" href="assets/MyStyle.css">
