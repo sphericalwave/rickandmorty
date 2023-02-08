@@ -33,8 +33,10 @@ struct CharacterRow: View {
     }
 }
 
-struct CharacterRow_Previews: PreviewProvider {
-    static var previews: some View {
-        CharacterRow(character: .preview)
-    }
-}
+//FIXME: test depp issue
+
+//struct CharacterRow_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CharacterRow(character: .preview)
+//    }
+//}

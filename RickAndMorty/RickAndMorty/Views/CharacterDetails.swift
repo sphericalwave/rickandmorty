@@ -37,8 +37,10 @@ struct CharacterDetails: View {
     }
 }
 
-struct CharacterUi_Previews: PreviewProvider {
-    static var previews: some View {
-        CharacterDetails(character: .preview)
-    }
-}
+//FIXME: test depp issue
+
+//struct CharacterUi_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CharacterDetails(character: .preview)
+//    }
+//}

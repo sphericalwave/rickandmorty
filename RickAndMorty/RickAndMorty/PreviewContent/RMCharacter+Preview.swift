@@ -5,13 +5,15 @@
 //  Created by Aaron Anthony on 2022-12-15.
 //
 
-import Foundation
+//FIXME: test depp issue
 
-extension RickAndMorty.Character {
-    
-    static var preview: RickAndMorty.Character {
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
-        return try! decoder.decode(RickAndMorty.Character.self, from: testJohnnyDepp)
-    }
-}
+//import Foundation
+//
+//extension RickAndMorty.Character {
+//    
+//    static var preview: RickAndMorty.Character {
+//        let decoder = JSONDecoder()
+//        decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
+//        return try! decoder.decode(RickAndMorty.Character.self, from: testJohnnyDepp)
+//    }
+//}
