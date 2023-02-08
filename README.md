@@ -1,11 +1,6 @@
-# Rick and Morty App
+<link rel="stylesheet" type="text/css" href="assets/MyStyle.css">
 
-<!--<div>-->
-<!--    <img src="assets/rick_morty_ios.png" class="inline-block" style="margin-left: auto; margin-right: auto;"/>-->
-<!--    <img src="assets/rick_morty_ios1.png" class="inline-block" style="margin-left: auto; margin-right: auto;"/>-->
-<!--    <img src="assets/rick_morty_ios2.png" class="inline-block" style="margin-left: auto; margin-right: auto;"/>-->
-<!--    <img src="assets/rick_morty_ios3.png" class="inline-block" style="margin-left: auto; margin-right: auto;"/>-->
-<!--</div>-->
+# Rick and Morty App
 
 <div class="images">
     <img src="assets/rick_morty_ios.png"/>
@@ -27,5 +22,3 @@ character appeared in.
   - Species
   - Gender
   - Current location
-
-<link rel="stylesheet" type="text/css" href="assets/MyStyle.css">
