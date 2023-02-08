@@ -1,9 +1,11 @@
 # Rick and Morty App
 
-<img src="assets/rick_morty_ios.png" width="33%" height="33%"/>
-<img src="assets/rick_morty_ios1.png" width="33%" height="33%"/>
-<img src="assets/rick_morty_ios2.png" width="33%" height="33%"/>
-<img src="assets/rick_morty_ios3.png" width="33%" height="33%"/>
+<div>
+    <img src="assets/rick_morty_ios.png" width="33%" height="33%" class="inline-block"/>
+    <img src="assets/rick_morty_ios1.png" width="33%" height="33%" class="inline-block"/>
+    <img src="assets/rick_morty_ios2.png" width="33%" height="33%" class="inline-block"/>
+    <img src="assets/rick_morty_ios3.png" width="33%" height="33%" class="inline-block"/>
+</div>
 
 Create a mobile app using the [Rick and Morty API](https://rickandmortyapi.com/).
 We'll be looking at the quality of your code and how your approach would scale to a larger
