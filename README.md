@@ -7,6 +7,13 @@
     <img src="assets/rick_morty_ios3.png" class="inline-block" style="margin-left: auto; margin-right: auto;"/>
 </div>
 
+<div style="display: inline-block; width: 25%;">
+    <img src="assets/rick_morty_ios.png"/>
+    <img src="assets/rick_morty_ios1.png"/>
+    <img src="assets/rick_morty_ios2.png"/>
+    <img src="assets/rick_morty_ios3.png"/>
+</div>
+
 ## Requirements
 - After launching, the app should display characters, using the `/character` endpoint of the [Rick and Morty API](https://rickandmortyapi.com/).
 - For each character show a thumbnail, name and the amount of episodes the
